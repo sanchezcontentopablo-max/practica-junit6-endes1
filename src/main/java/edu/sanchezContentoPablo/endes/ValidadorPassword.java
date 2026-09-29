@@ -1,22 +1,65 @@
 package edu.sanchezContentoPablo.endes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Clase que valida contraseñas según reglas de seguridad básicas.
+ * Valida contraseñas según unas reglas de seguridad básicas.
+ *
+ * <p>Una contraseña es válida si:</p>
+ * <ul>
+ *   <li>no es {@code null};</li>
+ *   <li>tiene al menos {@value #LONGITUD_MINIMA} caracteres;</li>
+ *   <li>contiene al menos una letra mayúscula;</li>
+ *   <li>contiene al menos un dígito.</li>
+ * </ul>
+ *
+ * @author Pablo Sánchez Contento
  */
 public class ValidadorPassword {
+
+    /** Número mínimo de caracteres exigido. */
+    public static final int LONGITUD_MINIMA = 8;
+
     /**
-     * Valida una contraseña según las siguientes reglas:
-     * <ul>
-     *   <li>No puede ser null</li>
-     *   <li>Longitud mínima de 8 caracteres</li>
-     *   <li>Al menos una letra mayúscula</li>
-     *   <li>Al menos un número</li>
-     * </ul>
+     * Crea un validador con las reglas por defecto.
+     */
+    public ValidadorPassword() {
+        // Sin estado que inicializar.
+    }
+
+    /**
+     * Indica si una contraseña cumple todas las reglas.
+     *
      * @param password la contraseña a validar
-     * @return true si la contraseña cumple todas las reglas, false en caso contrario
+     * @return {@code true} si la contraseña cumple todas las reglas
      */
     public boolean validar(String password) {
-        if (password == null) return false;
-        return password.matches("^(?=.*[A-Z])(?=.*\\d).{8,}$");
+        return errores(password).isEmpty();
+    }
+
+    /**
+     * Devuelve la lista de reglas que incumple una contraseña, en lenguaje
+     * natural, para poder mostrárselas al usuario.
+     *
+     * @param password la contraseña a comprobar
+     * @return lista de mensajes de error; vacía si la contraseña es válida
+     */
+    public List<String> errores(String password) {
+        List<String> errores = new ArrayList<>();
+        if (password == null) {
+            errores.add("La contraseña es obligatoria");
+            return errores;
+        }
+        if (password.length() < LONGITUD_MINIMA) {
+            errores.add("Debe tener al menos " + LONGITUD_MINIMA + " caracteres");
+        }
+        if (password.chars().noneMatch(Character::isUpperCase)) {
+            errores.add("Debe contener al menos una letra mayúscula");
+        }
+        if (password.chars().noneMatch(Character::isDigit)) {
+            errores.add("Debe contener al menos un número");
+        }
+        return errores;
     }
 }

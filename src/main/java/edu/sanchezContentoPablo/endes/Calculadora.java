@@ -1,9 +1,18 @@
 package edu.sanchezContentoPablo.endes;
 
 /**
- * Clase que proporciona operaciones básicas de cálculo aritmético.
+ * Realiza las cuatro operaciones aritméticas básicas.
+ *
+ * @author Pablo Sánchez Contento
  */
 public class Calculadora {
+    /**
+     * Crea una calculadora.
+     */
+    public Calculadora() {
+        // Sin estado que inicializar.
+    }
+
     /**
      * Suma dos números.
      * @param a primer sumando
